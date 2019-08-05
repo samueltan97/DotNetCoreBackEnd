@@ -4,7 +4,7 @@ namespace DotNetCoreBackEnd.Models
 {
     public class StudentData
     {
-        public StudentData(string id, string name, string age, string subjects)
+        public StudentData(string id, string name, string age, string[] subjects)
         {
             this.Id = id;
             this.Name = name;
@@ -27,7 +27,7 @@ namespace DotNetCoreBackEnd.Models
             return this.Age;
         }
         
-        public string GetSubjects()
+        public string[] GetSubjects()
         {
             return this.Subjects;
         }
@@ -36,6 +36,6 @@ namespace DotNetCoreBackEnd.Models
         private string Id { get; }
         private string Name { get; }
         private string Age { get; }
-        private string Subjects { get; }
+        private string[] Subjects { get; }
     }
 }
