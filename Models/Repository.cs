@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCoreBackEnd.DAL;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
@@ -10,20 +11,41 @@ namespace DotNetCoreBackEnd.Models
 {
     public class Repository: IRepository
     {
-        private DbContext _database;
-        public Repository(DbContext database)
+        private StudentContext _database;
+        public Repository(StudentContext database)
         {
             this._database = database;
         }
         
-        public Task<IEnumerable<StudentDomain>> GetAllStudent()
+        public async Task<IEnumerable<StudentDomain>> GetAllStudent()
         {
-            return _database.
+            return (await _database.Students.ToListAsync()).Select(DataToDomain);
         }
 
-        public Task<StudentDomain> GetStudent(Guid id)
+        public async Task<StudentDomain> GetStudent(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _database.Students.Where(s => s.Id == id.ToString()).ToListAsync();
+            
+            List<StudentData> studentDatas = new List<StudentData>();
+            List<Subject> subjects = new List<Subject>();
+
+            foreach (StudentData studentData in result)
+            {
+                foreach (StudentSubjectData studentSubjectData in studentData.StudentSubjectData)
+                {
+                    subjects.Add(new Subject(studentSubjectData.SubjectData.Id, studentSubjectData.SubjectData.Name));
+                }
+                studentDatas.Add(studentData);
+            }
+
+            StudentDomain studentDomain = new StudentDomain(
+                Guid.Parse(studentDatas[0].Id),
+                studentDatas[0].Name,
+                Int32.Parse(studentDatas[0].Age),
+                subjects
+            );
+
+            return studentDomain;
         }
 
         public Task<StudentDomain> AddStudent(StudentDomain studentDomain)
