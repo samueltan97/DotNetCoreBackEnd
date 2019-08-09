@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DotNetCoreBackEnd.DAL;
 
 namespace DotNetCoreBackEnd.Models
 {
@@ -8,8 +9,14 @@ namespace DotNetCoreBackEnd.Models
     { 
         Task<IEnumerable<StudentDomain>> GetAllStudent();
         Task<StudentDomain> GetStudent(Guid id);
-        Task<StudentDomain> AddStudent(StudentDomain studentDomain);
-        Task<StudentDomain> PutStudent(StudentDomain studentDomain);
+        Task AddStudent(StudentDomain studentDomain);
         Task DeleteStudent(Guid id);
+        
+        /*Task<IEnumerable<Subject>> GetAllSubjects();
+        Task<Subject> GetSubject(string id);
+        Task AddSubject(Subject subject);
+        Task DeleteSubject(string id);*/
+        
+        
     }
 }
