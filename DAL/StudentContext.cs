@@ -8,11 +8,9 @@ namespace DotNetCoreBackEnd.DAL
     public class StudentContext:DbContext
     {
         
-        public StudentContext(DbContextOptions<StudentContext> options)
+        public StudentContext(DbContextOptions<StudentContext> options): base(options)
         {
-            this.context = options;
         }
-        public DbContextOptions<StudentContext> context { get; set; }
         public DbSet<StudentData> Students { get; set; }
         public DbSet<SubjectData> Subjects { get; set; }
 

@@ -11,26 +11,24 @@ namespace DotNetCoreBackEnd.Models
 {
     public class Repository: IRepository
     {
-        /*private StudentContext _database;
+        private StudentContext _database;
         public Repository(StudentContext database)
         {
             this._database = database;
-        }*/
-        
-        private Dictionary<string, StudentData> studentDatabase;
-        private Dictionary<string, SubjectData> subjectDatabase;
-        public Repository()
-        {
-/*
-            this._database = database;
-*/
-            this.studentDatabase = new Dictionary<string, StudentData>();
-            this.subjectDatabase = new Dictionary<string, SubjectData>();
         }
+        
+        /*private Dictionary<string, StudentData> studentDatabase;
+        private Dictionary<string, SubjectData> subjectDatabase;*/
+        /*public Repository()
+        {
+            this._database = database;
+            /*this.studentDatabase = new Dictionary<string, StudentData>();
+            this.subjectDatabase = new Dictionary<string, SubjectData>();#1#
+        }*/
         
         public async Task<IEnumerable<StudentDomain>> GetAllStudent()
         {
-            /*var students = await _database.Students
+            var students = await _database.Students
                 .Include(student => student.StudentSubjectData)
                 .ThenInclude(data => data.SubjectData)
                 .ToListAsync();
@@ -48,20 +46,20 @@ namespace DotNetCoreBackEnd.Models
                     Int32.Parse(student.Age), 
                     subjects) );
             }
-            return studentDomain;*/
-            var list = new List<StudentDomain>();
+            return studentDomain;
+            /*var list = new List<StudentDomain>();
             foreach (var student in studentDatabase.Values)
             {
                 list.Add(new StudentDomain(Guid.Parse(student.StudentDataId), student.Name, Int32.Parse(student.Age), 
                         null
                     ));
             }
-            return list;
+            return list;*/
         }
 
         public async Task<StudentDomain> GetStudent(Guid id)
         {
-            /*var result = await _database.Students
+            var result = await _database.Students
                 .Where(s => s.StudentDataId == id.ToString())
                 .Include(student => student.StudentSubjectData)
                 .ThenInclude(studentSubjectData => studentSubjectData.SubjectData)
@@ -82,17 +80,17 @@ namespace DotNetCoreBackEnd.Models
                 subjects
             );
 
-            return studentDomain;*/
+            return studentDomain;
             
-            return new StudentDomain(id, studentDatabase[id.ToString()].Name, Int32.Parse(studentDatabase[id.ToString()].Age),
+            /*return new StudentDomain(id, studentDatabase[id.ToString()].Name, Int32.Parse(studentDatabase[id.ToString()].Age),
                     null
-                );
+                );*/
         }
 
         public async Task AddStudent(StudentDomain studentDomain)
         {
 
-            /*StudentData studentData = new StudentData
+            StudentData studentData = new StudentData
             {
                 StudentDataId = studentDomain.Id.ToString(),
                 Age = studentDomain.Age.ToString(),
@@ -111,26 +109,28 @@ namespace DotNetCoreBackEnd.Models
             }
 
             await _database.Students.AddAsync(studentData);
-            _database.SaveChanges();*/
+            _database.SaveChanges();
 
-            studentDatabase.Add(studentDomain.Id.ToString(), new StudentData {
+            /*studentDatabase.Add(studentDomain.Id.ToString(), new StudentData {
                 StudentDataId = studentDomain.Id.ToString(),
                 Name = studentDomain.Name,
                 Age = studentDomain.Age.ToString()
-            });
+            });*/
     }
 
         public async Task DeleteStudent(Guid id)
         {
-            /*var student = await _database.Students.SingleAsync(studentData => studentData.StudentDataId == id.ToString());
+            var student = await _database.Students.SingleAsync(studentData => studentData.StudentDataId == id.ToString());
             student.StudentSubjectData.Clear();
             _database.Students.Remove(student);
-            _database.SaveChanges();*/
+            _database.SaveChanges();
 
+/*
             studentDatabase.Remove(id.ToString());
+*/
         }
 
-        /*public async Task<IEnumerable<Subject>> GetAllSubjects()
+        public async Task<IEnumerable<Subject>> GetAllSubjects()
         {
             var subjects = await _database.Subjects.Include(subject => subject.StudentSubjectData)
                 .ThenInclude(data => data.StudentData)
@@ -206,6 +206,6 @@ namespace DotNetCoreBackEnd.Models
             subject.StudentSubjectData.Clear();
             _database.Subjects.Remove(subject);
             _database.SaveChanges();
-        }*/
+        }
     }
 }

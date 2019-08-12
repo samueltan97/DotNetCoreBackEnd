@@ -12,10 +12,10 @@ namespace DotNetCoreBackEnd.Models
         Task AddStudent(StudentDomain studentDomain);
         Task DeleteStudent(Guid id);
         
-        /*Task<IEnumerable<Subject>> GetAllSubjects();
+        Task<IEnumerable<Subject>> GetAllSubjects();
         Task<Subject> GetSubject(string id);
         Task AddSubject(Subject subject);
-        Task DeleteSubject(string id);*/
+        Task DeleteSubject(string id);
         
         
     }

@@ -7,14 +7,8 @@ namespace DotNetCoreBackEnd.Models
     {
         public class SubjectRequest
         {
-            public SubjectRequest(string name, StudentDomain[] students)
-            {
-                this.Name = name;
-                this.Students = students.ToList();
-            }
-        
-            public string Name { get; }
-            public List<StudentDomain> Students { get; }
+            public string Name { get; set; }
+            public StudentDomain[] Students { get; set; }
         }
     }
 }
