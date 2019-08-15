@@ -9,11 +9,11 @@ namespace DotNetCoreBackEnd.Models
         {
             this.Id = id;
             this.Name = name;
-            this.Students = students.ToList();
+            this.Students = students;
         }
 
-        public string Id { get; }
-        public string Name { get; }
-        public IEnumerable<StudentDomain> Students { get; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public IEnumerable<StudentDomain> Students { get; set; }
     }
 }

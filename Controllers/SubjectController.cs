@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCoreBackEnd.Models;
+using DotNetCoreBackEnd.Models.DotNetCoreBackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCoreBackEnd.Controllers
@@ -36,19 +37,20 @@ namespace DotNetCoreBackEnd.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<ActionResult<Subject>> PostSubject([FromBody] Subject subject)
+        public async Task<ActionResult<Subject>> PostSubject([FromBody] SubjectRequest subject)
         {
-            await _repository.AddSubject(subject);
+            await _repository.AddSubject(new Subject(subject.Id, subject.Name, new List<StudentDomain>()));
             return Created(Request.Path.Value + "/" + subject.Id, subject);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Subject>> PutStudent(string id, [FromBody] Subject subject)
+        public async Task<ActionResult<Subject>> PutStudent(string id, [FromBody] SubjectRequest subject)
         {
+            var students = (await _repository.GetSubject(id)).Students;
             await _repository.DeleteSubject(id);
-            await _repository.AddSubject(subject);
-            return Ok(subject);
+            await _repository.AddSubject(new Subject(subject.Id, subject.Name, students));
+            return Ok(new Subject(subject.Id, subject.Name, students));
         }
 
         // DELETE api/values/5
